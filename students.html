@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Students</title>
+<link rel="stylesheet" href="table.css">
+</head>
+<body>
+
+<div class="page-wrap">
+<h2>Students Records</h2>
+<input id="searchBox" placeholder="Search any field..." onkeyup="searchStudents()">
+
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th>Photo</th>
+<th>Admission No</th>
+<th>First Name</th>
+<th>Last Name</th>
+<th>Name</th>
+<th>Gender</th>
+<th>DOB</th>
+<th>Date of Enter</th>
+<th>Aadhaar No</th>
+<th>Blood Group</th>
+<th>Father Name</th>
+<th>Mother Name</th>
+<th>Father Study</th>
+<th>Mother Study</th>
+<th>Father Occupation</th>
+<th>Mother Occupation</th>
+<th>Address</th>
+<th>Class</th>
+<th>Section</th>
+<th>Medium</th>
+<th>Mobile</th>
+<th>Admission Date</th>
+<th>TC Issuing Date</th>
+<th>Total Fee</th>
+<th>Fee Paid</th>
+<th>Balance</th>
+<th>Actions</th>
+</tr>
+</thead>
+<tbody id="tableBody"></tbody>
+</table>
+</div>
+</div>
+
+<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-storage.js"></script>
+
+<script src="app.js"></script>
+
+<script>
+loadStudents();
+</script>
+
+</body>
+</html>

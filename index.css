@@ -1,0 +1,89 @@
+body {
+  font-family: Arial;
+  margin: 0;
+  background: #f4f6f9;
+}
+
+.login-card {
+  width: 320px;
+  margin: 120px auto;
+  padding: 25px;
+  box-shadow: 0 0 15px #ccc;
+  text-align: center;
+  background: white;
+  border-radius: 10px;
+}
+
+.dashboard {
+  display: flex;
+}
+
+.sidebar {
+  width: 220px;
+  background: #2c3e50;
+  color: white;
+  height: 100vh;
+  padding: 20px;
+  resize: horizontal;
+  overflow: auto;
+}
+
+.sidebar button {
+  width: 100%;
+  margin: 10px 0;
+  padding: 12px;
+  border: none;
+  background: #34495e;
+  color: white;
+  cursor: pointer;
+  border-radius: 5px;
+}
+
+.sidebar button:hover {
+  background: #1abc9c;
+}
+
+.main {
+  flex: 1;
+  padding: 20px;
+}
+
+.form-grid {
+  display: grid;
+  grid-template-columns: repeat(2,1fr);
+  gap: 12px;
+}
+
+input {
+  padding: 8px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+}
+
+button {
+  cursor: pointer;
+}
+
+.table-container {
+  max-height: 400px;
+  overflow: auto;
+  border: 1px solid #ccc;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+}
+
+th {
+  background: #34495e;
+  color: white;
+  position: sticky;
+  top: 0;
+}
+
+th, td {
+  border: 1px solid #ccc;
+  padding: 6px;
+}

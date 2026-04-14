@@ -1,0 +1,7 @@
+node_modules/
+*.exe
+*.bat
+install_mode
+google-cloud-sdk/
+.env
+*.log

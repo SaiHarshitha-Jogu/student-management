@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Dashboard</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="dashboard sidebar-collapsed">
+  <aside class="sidebar">
+    <div class="brand">
+      <h2>Cambridge EM School</h2>
+      <p>Admin Panel</p>
+    </div>
+
+    <nav class="menu">
+      <a href="admissions.html">Admission Form</a>
+      <a href="students.html">Students Records</a>
+    </nav>
+
+    <button class="logout-btn" onclick="logout()">Logout</button>
+  </aside>
+
+  <main class="main">
+    <header class="topbar">
+      <button id="menuToggle" class="menu-toggle" aria-label="Toggle menu">&#9776;</button>
+      <h1>Welcome to Cambridge EM School</h1>
+      <p>Empowering rural learners with quality English-medium education.</p>
+    </header>
+    <section class="welcome-panel">
+      <div class="school-photo" aria-hidden="true"></div>
+      <div class="school-info">
+        <h2>About Cambridge EM School</h2>
+        <p>
+          Established in 2015, Cambridge EM School is a private unaided co-educational school
+          in rural Manakondur block, Karimnagar district, Telangana. The school serves Grades 1-8
+          with English as the medium of instruction, and the academic session begins in April.
+        </p>
+        <ul>
+          <li>14 instructional classrooms and separate headmaster room</li>
+          <li>Playground and library with around 400 books</li>
+          <li>Functional sanitation: 2 boys toilets and 3 girls toilets</li>
+          <li>Pucca boundary wall, all-weather road access, and electricity connection</li>
+        </ul>
+      </div>
+    </section>
+  </main>
+  <div id="sidebarBackdrop" class="sidebar-backdrop"></div>
+</div>
+
+<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-storage.js"></script>
+
+<script src="app.js"></script>
+<script>
+  const dashboard = document.querySelector(".dashboard");
+  const menuToggle = document.getElementById("menuToggle");
+  const sidebarBackdrop = document.getElementById("sidebarBackdrop");
+  if(menuToggle && dashboard){
+    menuToggle.addEventListener("click", () => {
+      dashboard.classList.toggle("sidebar-collapsed");
+    });
+  }
+  if(sidebarBackdrop && dashboard){
+    sidebarBackdrop.addEventListener("click", () => {
+      dashboard.classList.add("sidebar-collapsed");
+    });
+  }
+</script>
+
+</body>
+</html>

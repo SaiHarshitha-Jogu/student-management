@@ -1,0 +1,186 @@
+body{
+  margin:0;
+  font-family:"Segoe UI", Arial, sans-serif;
+  background:linear-gradient(135deg,#eaf4fb 0%, #d6edf7 100%);
+}
+
+.dashboard{
+  min-height:100vh;
+  display:flex;
+  position:relative;
+}
+
+.sidebar{
+  width:260px;
+  background:linear-gradient(180deg,#123c5b 0%, #0f2f49 100%);
+  color:#fff;
+  padding:24px 18px;
+  display:flex;
+  flex-direction:column;
+  justify-content:flex-start;
+  box-shadow:8px 0 22px rgba(11,38,57,0.2);
+  transition:transform .28s ease;
+  overflow-y:auto;
+  overflow-x:hidden;
+  position:fixed;
+  left:0;
+  top:0;
+  height:100vh;
+  z-index:20;
+  transform:translateX(0);
+}
+
+.brand h2{
+  margin:0;
+  font-size:24px;
+}
+
+.brand p{
+  margin:8px 0 0;
+  color:#b9d8eb;
+  font-size:13px;
+}
+
+.menu{
+  margin-top:20px;
+  display:flex;
+  flex-direction:column;
+  gap:10px;
+}
+
+.menu a{
+  text-decoration:none;
+  color:#f2fbff;
+  background:rgba(255,255,255,0.12);
+  border:1px solid rgba(255,255,255,0.25);
+  padding:12px 14px;
+  border-radius:10px;
+  font-weight:600;
+}
+
+.menu a:hover{
+  background:rgba(255,255,255,0.2);
+}
+
+.logout-btn{
+  border:none;
+  background:#ecf4f9;
+  color:#0e324b;
+  font-weight:700;
+  border-radius:10px;
+  padding:11px 14px;
+  cursor:pointer;
+  margin-top:auto;
+  margin-bottom:6px;
+}
+
+.main{
+  flex:1;
+  padding:32px;
+  margin-left:0;
+  width:100%;
+  display:flex;
+  flex-direction:column;
+  justify-content:flex-start;
+  align-items:stretch;
+}
+
+.menu-toggle{
+  width:42px;
+  height:42px;
+  border:none;
+  border-radius:10px;
+  background:#123c5b;
+  color:#fff;
+  font-size:26px;
+  line-height:1;
+  cursor:pointer;
+  margin-bottom:10px;
+}
+
+.dashboard.sidebar-collapsed .sidebar{
+  transform:translateX(-100%);
+}
+
+.sidebar-backdrop{
+  position:fixed;
+  inset:0;
+  background:rgba(7,22,35,0.35);
+  z-index:10;
+  opacity:1;
+  transition:opacity .25s ease;
+}
+
+.dashboard.sidebar-collapsed .sidebar-backdrop{
+  opacity:0;
+  pointer-events:none;
+}
+
+.topbar h1{
+  margin:0;
+  font-size:38px;
+  color:#123c5b;
+  text-align:center;
+}
+
+.topbar p{
+  margin:10px 0 0;
+  color:#456477;
+  text-align:center;
+}
+
+.welcome-panel{
+  margin-top:22px;
+  width:100%;
+  background:#ffffff;
+  border-radius:18px;
+  box-shadow:0 14px 34px rgba(19,60,91,0.14);
+  border:1px solid #dceaf4;
+  overflow:hidden;
+}
+
+.school-photo{
+  height:260px;
+  background-image:linear-gradient(rgba(15,53,83,.18), rgba(15,53,83,.18)), url("https://images.unsplash.com/photo-1594608661623-aa0bd3a69d98?auto=format&fit=crop&w=1400&q=80");
+  background-size:cover;
+  background-position:center;
+}
+
+.school-info{
+  padding:20px 24px;
+}
+
+.school-info h2{
+  margin:0 0 10px;
+  color:#123c5b;
+  font-size:26px;
+}
+
+.school-info p{
+  margin:0;
+  color:#455f72;
+  line-height:1.6;
+}
+
+.school-info ul{
+  margin:12px 0 0;
+  padding-left:22px;
+  color:#36566c;
+  line-height:1.6;
+}
+
+@media (max-width:900px){
+  .dashboard{
+    display:block;
+  }
+  .main{
+    align-items:stretch;
+    padding:20px;
+  }
+  .topbar h1{
+    font-size:30px;
+  }
+  .school-photo{
+    height:210px;
+  }
+}

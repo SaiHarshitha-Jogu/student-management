@@ -1,0 +1,80 @@
+body{
+  margin:0;
+  font-family:"Segoe UI", Arial, sans-serif;
+  background:linear-gradient(135deg,#edf5fb 0%, #dceef8 100%);
+}
+
+.page-wrap{
+  padding:22px;
+}
+
+h2{
+  margin:0 0 14px;
+  color:#144261;
+}
+
+#searchBox{
+  width:min(360px, 100%);
+  padding:10px 12px;
+  border:1px solid #b8d0df;
+  border-radius:8px;
+  margin-bottom:14px;
+}
+
+.table-container{
+  max-height:70vh;
+  overflow:auto;
+  border:1px solid #c8dcea;
+  border-radius:12px;
+  background:#fff;
+  box-shadow:0 10px 25px rgba(20,66,97,0.1);
+}
+
+table{
+  width:100%;
+  border-collapse:collapse;
+  min-width:1800px;
+}
+
+th,td{
+  border:1px solid #d7e4ee;
+  padding:8px 10px;
+  font-size:13px;
+  text-align:left;
+  white-space:nowrap;
+}
+
+th{
+  background:#13496d;
+  color:#fff;
+  position:sticky;
+  top:0;
+  z-index:1;
+}
+
+tbody tr:nth-child(even){
+  background:#f7fbff;
+}
+
+tbody tr:hover{
+  background:#eaf5fd;
+}
+
+.delete-btn{
+  border:none;
+  background:#d9534f;
+  color:#fff;
+  border-radius:6px;
+  padding:6px 10px;
+  cursor:pointer;
+}
+
+.edit-btn{
+  border:none;
+  background:#2d7db3;
+  color:#fff;
+  border-radius:6px;
+  padding:6px 10px;
+  cursor:pointer;
+  margin-right:6px;
+}

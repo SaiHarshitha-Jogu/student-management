@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Admission</title>
+<link rel="stylesheet" href="admissions.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+</head>
+<body>
+
+<div class="admission-card">
+  <h2>School Admission Form</h2>
+  <p class="subtext">Please fill all details clearly before saving.</p>
+
+  <div class="form-grid">
+    <div class="field-with-note">
+      <input id="adm" placeholder="Admission No" required>
+      <small>Admission No</small>
+    </div>
+    <div class="name-row full">
+      <div class="field-with-note">
+        <input id="firstName" placeholder="First Name" required>
+        <small>First Name</small>
+      </div>
+      <div class="field-with-note">
+        <input id="lastName" placeholder="Last Name">
+        <small>Last Name</small>
+      </div>
+    </div>
+    <div class="field-with-note">
+      <div class="gender-group">
+        <label><input type="radio" name="gender" value="Male"> Male</label>
+        <label><input type="radio" name="gender" value="Female"> Female</label>
+      </div>
+      <small>Gender</small>
+    </div>
+    <div class="dob-row full">
+      <div class="field-with-note">
+        <input type="date" id="dob" class="date-input" placeholder="Date of Birth" required>
+        <small>Date of Birth</small>
+      </div>
+      <div class="field-with-note">
+        <input type="date" id="dateOfEnter" class="date-input" placeholder="Date of Enter">
+        <small>Date of Enter</small>
+      </div>
+    </div>
+    <div class="field-with-note">
+      <input id="aadhaar" placeholder="Aadhaar No" inputmode="numeric" maxlength="12" required>
+      <small>Aadhaar No</small>
+    </div>
+    <div class="field-with-note">
+      <input id="blood" placeholder="Blood Group">
+      <small>Blood Group</small>
+    </div>
+    <div class="field-with-note">
+      <input id="mobile" placeholder="Mobile" inputmode="numeric" maxlength="10" required>
+      <small>Mobile No</small>
+    </div>
+    <div class="field-with-note">
+      <input id="class" placeholder="Class">
+      <small>Class</small>
+    </div>
+    <div class="field-with-note">
+      <input id="section" placeholder="Section">
+      <small>Section</small>
+    </div>
+    <div class="field-with-note">
+      <input id="medium" placeholder="Medium">
+      <small>Medium</small>
+    </div>
+    <div class="field-with-note">
+      <input id="father" placeholder="Father Name">
+      <small>Father Name</small>
+    </div>
+    <div class="field-with-note">
+      <input id="mother" placeholder="Mother Name">
+      <small>Mother Name</small>
+    </div>
+    <div class="field-with-note">
+      <input id="fatherStudy" placeholder="Father Study">
+      <small>Father Study</small>
+    </div>
+    <div class="field-with-note">
+      <input id="motherStudy" placeholder="Mother Study">
+      <small>Mother Study</small>
+    </div>
+    <div class="field-with-note">
+      <input id="fatherOcc" placeholder="Father Occupation">
+      <small>Father Occupation</small>
+    </div>
+    <div class="field-with-note">
+      <input id="motherOcc" placeholder="Mother Occupation">
+      <small>Mother Occupation</small>
+    </div>
+    <div class="field-with-note full address-field">
+      <textarea id="address" placeholder="Address"></textarea>
+      <small>Address</small>
+    </div>
+    <div class="field-with-note">
+      <input type="date" id="admissionDate" class="date-input" placeholder="Admission Date">
+      <small>Admission Date</small>
+    </div>
+    <div class="field-with-note">
+      <input type="date" id="tcDate" class="date-input" placeholder="TC Issuing Date">
+      <small>TC Issuing Date</small>
+    </div>
+    <div class="field-with-note">
+      <input id="fee" placeholder="Total Fee">
+      <small>Total Fee</small>
+    </div>
+    <div class="field-with-note">
+      <input id="feePaid" placeholder="Fee Paid">
+      <small>Fee Paid</small>
+    </div>
+    <div class="field-with-note">
+      <input id="balance" placeholder="Balance" readonly>
+      <small>Balance</small>
+    </div>
+    <div class="field-with-note full">
+      <input type="file" id="photo">
+      <small>Student Photo</small>
+    </div>
+  </div>
+
+  <div class="action-row">
+    <button class="save-btn" onclick="saveData()">Save Admission</button>
+    <button class="print-btn" onclick="printAdmissionPDF()">Print Admission PDF</button>
+  </div>
+</div>
+
+<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-storage.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+
+<script src="app.js"></script>
+
+</body>
+</html>
