@@ -105,17 +105,88 @@ firebase.initializeApp({
     });
   })();
   
+  function showAuthMessage(message, isSuccess){
+    const messageEl = document.getElementById("authMessage");
+    if(!messageEl){
+      alert(message);
+      return;
+    }
+    messageEl.textContent = message;
+    if(isSuccess){
+      messageEl.classList.add("success");
+    }else{
+      messageEl.classList.remove("success");
+    }
+  }
+
+  function getLoginInputs(){
+    const emailEl = document.getElementById("email");
+    const passwordEl = document.getElementById("password");
+    return {
+      email: emailEl ? emailEl.value.trim() : "",
+      password: passwordEl ? passwordEl.value : ""
+    };
+  }
+
   // LOGIN
   function login(){
-    auth.signInWithEmailAndPassword(email.value,password.value)
-    .then(()=>window.location="index.html")
-    .catch(e=>alert(e.message));
+    const { email, password } = getLoginInputs();
+    if(!email || !password){
+      showAuthMessage("Please enter email and password.", false);
+      return;
+    }
+    auth.signInWithEmailAndPassword(email, password)
+    .then(() => {
+      showAuthMessage("Login successful.", true);
+      window.location = "index.html";
+    })
+    .catch((e) => {
+      if(e.code === "auth/user-not-found"){
+        showAuthMessage("No account found. First time login? Register here.", false);
+        return;
+      }
+      if(e.code === "auth/wrong-password" || e.code === "auth/invalid-credential"){
+        showAuthMessage("Enter valid email or password.", false);
+        return;
+      }
+      showAuthMessage(e.message || "Unable to login right now.", false);
+    });
   }
   
   function register(){
-    auth.createUserWithEmailAndPassword(email.value,password.value)
-    .then(()=>alert("Registered"))
-    .catch(e=>alert(e.message));
+    const { email, password } = getLoginInputs();
+    if(!email || !password){
+      showAuthMessage("Please enter email and password to register.", false);
+      return;
+    }
+    auth.createUserWithEmailAndPassword(email, password)
+    .then(() => showAuthMessage("Registered successfully. Please login.", true))
+    .catch((e) => {
+      if(e.code === "auth/email-already-in-use"){
+        showAuthMessage("This email is already registered. Please login.", false);
+        return;
+      }
+      showAuthMessage(e.message || "Registration failed.", false);
+    });
+  }
+
+  function forgotPassword(){
+    const email = document.getElementById("email")?.value?.trim() || "";
+    if(!email){
+      showAuthMessage("Enter your email to receive OTP/reset link.", false);
+      return;
+    }
+    auth.sendPasswordResetEmail(email)
+    .then(() => {
+      showAuthMessage("Reset mail sent in real-time. Check your inbox and spam.", true);
+    })
+    .catch((e) => {
+      if(e.code === "auth/user-not-found"){
+        showAuthMessage("No account found with this email. Register here first.", false);
+        return;
+      }
+      showAuthMessage(e.message || "Could not send reset mail.", false);
+    });
   }
   
   function logout(){
@@ -318,6 +389,7 @@ firebase.initializeApp({
     const gender = document.querySelector('input[name="gender"]:checked')?.value || "-";
     const selectedPhoto = document.getElementById("photo")?.files?.[0];
     const photoDataUrl = await fileToDataUrl(selectedPhoto);
+    const existingPhotoFromForm = existingPhotoUrl || "";
     const details = [
       ["Admission No", getTextValue("adm")],
       ["Student Name", fullName],
@@ -357,8 +429,9 @@ firebase.initializeApp({
         </tr>
       `;
     }
-    const photoHtml = photoDataUrl
-      ? `<img src="${photoDataUrl}" alt="Student Photo">`
+    const printablePhotoSrc = photoDataUrl || existingPhotoFromForm;
+    const photoHtml = printablePhotoSrc
+      ? `<img src="${printablePhotoSrc}" alt="Student Photo">`
       : `<div class="photo-placeholder">Student Photo</div>`;
 
     const printWin = window.open("", "_blank");
@@ -433,7 +506,32 @@ firebase.initializeApp({
       finishAndReturn();
     };
 
-    printWin.print();
+    const triggerPrint = () => {
+      if(printWin.closed){
+        finishAndReturn();
+        return;
+      }
+      printWin.print();
+    };
+
+    const printImage = printWin.document.querySelector(".photo-box img");
+    if(printImage){
+      if(printImage.complete){
+        triggerPrint();
+      }else{
+        const imgTimeout = setTimeout(triggerPrint, 2500);
+        printImage.onload = () => {
+          clearTimeout(imgTimeout);
+          triggerPrint();
+        };
+        printImage.onerror = () => {
+          clearTimeout(imgTimeout);
+          triggerPrint();
+        };
+      }
+    }else{
+      triggerPrint();
+    }
 
     // Fallback for browsers where onafterprint may not fire reliably.
     setTimeout(() => {
@@ -441,5 +539,5 @@ firebase.initializeApp({
         printWin.close();
       }
       finishAndReturn();
-    }, 2000);
+    }, 4500);
   }
