@@ -71,6 +71,24 @@ body{
   border-color:#7bc8de;
 }
 
+.helper-row{
+  display:flex;
+  justify-content:flex-end;
+  margin-top:-4px;
+  margin-bottom:8px;
+}
+
+.link-btn{
+  border:none;
+  background:transparent;
+  color:#0f4b6f;
+  font-size:13px;
+  font-weight:600;
+  cursor:pointer;
+  text-decoration:underline;
+  padding:0;
+}
+
 .btn-row{
   display:grid;
   grid-template-columns:1fr 1fr;
@@ -94,4 +112,15 @@ body{
 .btn-secondary{
   background:#ecf4f9;
   color:#1e4f6f;
+}
+
+.auth-message{
+  margin:12px 0 0;
+  min-height:18px;
+  font-size:13px;
+  color:#be123c;
+}
+
+.auth-message.success{
+  color:#0f766e;
 }
