@@ -2,7 +2,7 @@
 <html>
 <head>
 <title>Dashboard</title>
-<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="dashboard.css">
 </head>
 <body>
 
@@ -27,6 +27,7 @@
       <h1>Welcome to Cambridge EM School</h1>
       <p>Empowering rural learners with quality English-medium education.</p>
     </header>
+
     <section class="welcome-panel">
       <div class="school-photo" aria-hidden="true"></div>
       <div class="school-info">
@@ -45,24 +46,39 @@
       </div>
     </section>
   </main>
+
   <div id="sidebarBackdrop" class="sidebar-backdrop"></div>
 </div>
 
+<!-- Firebase -->
 <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
 <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
 <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
 <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-storage.js"></script>
 
 <script src="app.js"></script>
+
+<!-- ✅ LOGIN CHECK (CORRECT WAY) -->
+<script>
+firebase.auth().onAuthStateChanged(function(user) {
+  if (!user) {
+    window.location.href = "index.html";
+  }
+});
+</script>
+
+<!-- Sidebar toggle -->
 <script>
   const dashboard = document.querySelector(".dashboard");
   const menuToggle = document.getElementById("menuToggle");
   const sidebarBackdrop = document.getElementById("sidebarBackdrop");
+
   if(menuToggle && dashboard){
     menuToggle.addEventListener("click", () => {
       dashboard.classList.toggle("sidebar-collapsed");
     });
   }
+
   if(sidebarBackdrop && dashboard){
     sidebarBackdrop.addEventListener("click", () => {
       dashboard.classList.add("sidebar-collapsed");
