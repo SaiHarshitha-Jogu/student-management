@@ -138,15 +138,24 @@ firebase.initializeApp({
     auth.signInWithEmailAndPassword(email, password)
     .then(() => {
       showAuthMessage("Login successful.", true);
-      window.location = "index.html";
+      window.location = "dashboard.html";
     })
     .catch((e) => {
-      if(e.code === "auth/user-not-found"){
-        showAuthMessage("No account found. First time login? Register here.", false);
-        return;
-      }
-      if(e.code === "auth/wrong-password" || e.code === "auth/invalid-credential"){
-        showAuthMessage("Enter valid email or password.", false);
+      const rawMessage = String(e?.message || "");
+      const normalizedMessage = rawMessage.toLowerCase();
+      const errorCode = String(e?.code || "").toLowerCase();
+
+      const isInvalidCredential =
+        errorCode === "auth/user-not-found" ||
+        errorCode === "auth/wrong-password" ||
+        errorCode === "auth/invalid-credential" ||
+        normalizedMessage.includes("invalid_login_credentials") ||
+        normalizedMessage.includes("invalid credential") ||
+        normalizedMessage.includes("wrong-password") ||
+        normalizedMessage.includes("user-not-found");
+
+      if(isInvalidCredential){
+        showAuthMessage("Invalid email or password.", false);
         return;
       }
       showAuthMessage(e.message || "Unable to login right now.", false);
@@ -190,7 +199,7 @@ firebase.initializeApp({
   }
   
   function logout(){
-    auth.signOut().then(()=>window.location="login.html");
+    auth.signOut().then(()=>window.location="index.html");
   }
   
   // SAVE
@@ -268,6 +277,17 @@ firebase.initializeApp({
   }
   
   // LOAD
+  function normalizeSearchValue(value){
+    return String(value || "")
+      .toLowerCase()
+      .replace(/\s+/g, " ")
+      .trim();
+  }
+
+  function normalizeDigits(value){
+    return String(value || "").replace(/\D/g, "");
+  }
+
   function loadStudents(){
     db.collection("students").get().then(snap=>{
       let html="";
@@ -278,8 +298,13 @@ firebase.initializeApp({
         const totalFee = Number(d.fee || 0);
         const paidFee = Number(d.feePaid || 0);
         const balanceFee = d.balance !== undefined && d.balance !== "" ? d.balance : Math.max(totalFee - paidFee, 0);
+        const normalizedClass = normalizeSearchValue(d.class);
+        const normalizedSection = normalizeSearchValue(d.section);
+        const normalizedAdm = normalizeSearchValue(d.adm);
+        const admDigits = normalizeDigits(d.adm);
+
         html+=`
-  <tr>
+  <tr data-class="${normalizedClass}" data-section="${normalizedSection}" data-adm="${normalizedAdm}" data-adm-digits="${admDigits}">
   <td>${photo}</td>
   <td>${d.adm || "-"}</td>
   <td>${d.firstName || "-"}</td>
@@ -313,6 +338,7 @@ firebase.initializeApp({
   </tr>`;
       });
       document.getElementById("tableBody").innerHTML=html;
+      searchStudents();
     });
   }
 
@@ -327,9 +353,43 @@ firebase.initializeApp({
   
   // SEARCH
   function searchStudents(){
-    let val=searchBox.value.toLowerCase();
-    document.querySelectorAll("tbody tr").forEach(r=>{
-      r.style.display=r.innerText.toLowerCase().includes(val)?"":"none";
+    const searchInput = document.getElementById("searchBox");
+    if(!searchInput){
+      return;
+    }
+
+    const rawQuery = searchInput.value || "";
+    const normalizedTextQuery = normalizeSearchValue(rawQuery);
+    const normalizedNumberQuery = normalizeDigits(rawQuery);
+    const queryParts = normalizedTextQuery ? normalizedTextQuery.split(" ") : [];
+    const isNumericOnlyQuery = normalizedTextQuery.length > 0 && normalizedTextQuery === normalizedNumberQuery;
+
+    document.querySelectorAll("#tableBody tr").forEach((row) => {
+      const rowClass = row.dataset.class || "";
+      const rowSection = row.dataset.section || "";
+      const rowAdm = row.dataset.adm || "";
+      const rowAdmDigits = row.dataset.admDigits || "";
+
+      if(!normalizedTextQuery){
+        row.style.display = "";
+        return;
+      }
+
+      let showRow = false;
+      if(isNumericOnlyQuery){
+        // Numeric query should match exact admission/class/section values.
+        showRow =
+          rowAdm === normalizedTextQuery ||
+          rowAdmDigits === normalizedNumberQuery ||
+          rowClass === normalizedTextQuery ||
+          rowSection === normalizedTextQuery;
+      }else{
+        // Text query should match class/section terms only.
+        const rowFields = [rowClass, rowSection, rowAdm];
+        showRow = queryParts.every((part) => rowFields.some((field) => field === part));
+      }
+
+      row.style.display = showRow ? "" : "none";
     });
   }
 
@@ -498,7 +558,7 @@ firebase.initializeApp({
       }
       finalized = true;
       clearAdmissionForm();
-      window.location.href = "index.html";
+      window.location.href = "dashboard.html";
     };
 
     printWin.onafterprint = () => {
